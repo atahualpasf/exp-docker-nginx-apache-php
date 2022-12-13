@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  nginx:
+    image: nginx:latest
+    ports: 
+      - 443:443
+      - 80:80
+    volumes:
+      - ./nginx/certs/:/etc/nginx/ssl
+      - ./nginx/conf/:/etc/nginx/conf.d
+      - ./nginx/www/:/var/www/
+  apache-server:
+    build: ./apache
+    volumes:
+      - ./nginx/www/fe.app.local/:/fe-app/
+      - ./nginx/www/be.app.local/:/be-app/
+  php-server:
+    build: ./php
+    volumes:
+      - ./nginx/www/:/var/www/
+      - ./nginx/www/fe.app.local/:/fe-app/
+      - ./nginx/www/be.app.local/:/be-app/
